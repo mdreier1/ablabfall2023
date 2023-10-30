@@ -1,0 +1,196 @@
+---
+title: "Abnormal Psych Lab Fall 2023"
+author: "Melissa Dreier"
+date: "2023-10-29"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+
+setwd("C:/Users/Missy Dreier/OneDrive - Rutgers University/Documents/Teaching/2023_Fall_AbnormalPsychLab/Results/") # set working directory
+
+.libPaths("C:/Users/Missy Dreier/Documents") # set place for packages to load
+
+bl <- read.csv("Baseline Survey.csv") # load in baseline dataset
+end <- read.csv("End Survey.csv") # load in end of survey dataset
+
+if (!require("tidyverse")) {install.packages("tidyverse"); require("tidyverse")} # load in package to compute effect size
+
+
+```
+
+
+```{r, include=FALSE}
+
+################# Data cleaning ###########################
+
+
+## Penn State Worry Questionnaire
+
+reverse_coded_vars <- c("PSWQ_1", "PSWQ_3", "PSWQ_8", "PSWQ_10", "PSWQ_11") # gather reverse coded vars
+
+reverse <- function(df, vars) {
+  
+  df[ , vars] = 6 - df[ , vars]
+
+  
+}
+
+
+bl[, reverse_coded_vars] <- reverse(bl, reverse_coded_vars) # recode PSWQ vars baseline
+
+end[, reverse_coded_vars] <- reverse(end, reverse_coded_vars) # recode PSWQ vars end of study
+
+
+# sum score bl
+
+bl$PSWQ_Total_pre <- rowSums(bl[, (14:29)], na.rm = T)
+
+# sum score end of study
+
+end$PSWQ_Total_post <- rowSums(end[, (2:17)], na.rm = T)
+
+
+## GAD-7
+
+
+## sum score bl
+
+bl$GAD7_Total_pre <- rowSums(bl[, (30:36)], na.rm=T)
+
+
+## sum score end of study
+
+end$GAD7_Total_post <- rowSums(end[, (18:24)], na.rm=T)
+
+
+### Flourishing Scale
+
+## sum score bl
+
+bl$Flourishing_Total_pre <- rowSums(bl[, (38:46)], na.rm=T)
+
+
+## sum score end of study
+
+end$Flourishing_Total_post <- rowSums(end[, (26:34)], na.rm=T)
+
+
+### PANAS
+
+## sum score bl - Positive emotions
+
+bl$PANAS_Pos_pre <- rowSums(bl[, c(47, 49, 51, 55, 56, 58, 60, 62, 63, 65)], na.rm=T)
+
+## sum score bl - Negative emotions
+
+bl$PANAS_Neg_pre <- rowSums(bl[, c(48, 50, 52:54, 57, 59, 61, 64, 66)], na.rm=T)
+
+
+## sum score end of study - Positive emotions
+
+end$PANAS_Pos_post <- rowSums(end[, c(35, 37, 39, 43, 44, 46, 48, 50, 51, 53)], na.rm=T)
+
+## sum score end of study - Negative emotions
+
+end$PANAS_Neg_post <- rowSums(end[, c(36, 38, 40:42, 45, 47, 49, 52, 54)], na.rm=T)
+
+
+
+
+########## MERGE #######################
+
+data <- merge(bl, end, by = "ID")
+
+
+```
+
+
+## Test of Differences in WORRY (PSWQ)
+
+```{r, include=TRUE, message=F, warning = F}
+
+
+t.test(data$PSWQ_Total_pre, data$PSWQ_Total_post, paired = T)
+
+mean(data$PSWQ_Total_pre) # Mean pre
+sd(data$PSWQ_Total_pre) # SD pre
+
+
+mean(data$PSWQ_Total_post) # Mean pre
+sd(data$PSWQ_Total_post) #SD pre
+
+
+```
+## Test of Differences in Anxiety (PSWQ)
+
+```{r, include=TRUE, message=F, warning = F}
+
+
+t.test(data$GAD7_Total_pre, data$GAD7_Total_post, paired = T)
+
+mean(data$GAD7_Total_pre) # Mean pre
+sd(data$GAD7_Total_pre) # SD pre
+
+
+mean(data$GAD7_Total_post) # Mean post
+sd(data$GAD7_Total_post) # SD post
+
+
+```
+
+
+## Test of Differences in Flourishing (Flourishing Scale)
+
+```{r, include=TRUE, message=F, warning = F}
+
+
+t.test(data$Flourishing_Total_pre, data$Flourishing_Total_post, paired = T)
+
+mean(data$Flourishing_Total_pre) # Mean pre
+sd(data$Flourishing_Total_pre) # SD pre
+
+
+mean(data$Flourishing_Total_post) # Mean post
+sd(data$Flourishing_Total_post) # SD post
+
+
+```
+
+## Test of Differences in Positive Emotions
+
+```{r, include=TRUE, message=F, warning = F}
+
+
+t.test(data$PANAS_Pos_pre, data$PANAS_Pos_post, paired = T)
+
+mean(data$PANAS_Pos_pre) # Mean pre
+sd(data$PANAS_Pos_pre) # SD pre
+
+
+mean(data$PANAS_Pos_post) # Mean post
+sd(data$PANAS_Pos_post) # SD post
+
+
+```
+
+## Test of Differences in Negative Emotions
+
+```{r, include=TRUE, message=F, warning = F}
+
+
+t.test(data$PANAS_Neg_pre, data$PANAS_Neg_post, paired = T)
+
+mean(data$PANAS_Neg_pre) # Mean pre
+sd(data$PANAS_Neg_pre) # SD pre
+
+
+mean(data$PANAS_Neg_post) # Mean post
+sd(data$PANAS_Neg_post) # SD post
+
+
+```

@@ -1,0 +1,102 @@
+---
+title: "AbLab Fall 2023 Demographics"
+author: "Melissa Dreier"
+date: "2023-10-29"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=F}
+
+### load data
+
+setwd("C:/Users/Missy Dreier/OneDrive - Rutgers University/Documents/Teaching/2023_Fall_AbnormalPsychLab/Results/") # set working directory
+
+.libPaths("C:/Users/Missy Dreier/Documents") # set place for packages to load
+
+bl <- read.csv("Baseline Survey.csv") # load in baseline dataset
+
+if (!require("tidyverse")) {install.packages("tidyverse"); require("tidyverse")} # load in package to compute effect size
+
+if (!require("flextable")) {install.packages("flextable"); require("flextable")} # load in package to compute effect size
+
+
+
+```
+
+
+```{r, include=F}
+
+
+demog = data.frame(
+  
+  Measure = c("Age, M(SD)", "Sex", "Female", "Male", "Gender", "Woman", "Man", "Race/Ethnicity", "East or Southeast Asian", "South Asian", "Black, African American, Caribbean, and/or African", "White", "Hispanic/Latino/Latina", "Middle Eastern, North African, and/or Arab", "Religion", "Christian", "Jewish", "Buddhist", "Agnostic/Areligious", "Spirituality", "Prefer not to say", "Sexual Orientation", "Heterosexual", "Homosexual", "Bisexual", "Questioning/Unsure", "Prefer not to disclose", "Class Year", "Junior", "Senior"),
+  
+  
+  N = c(paste(round(mean(bl$age, na.rm=TRUE), 2), "(",round(sd(bl$age, na.rm = TRUE), 2),")", sep=""), "",  
+        
+        paste(n_distinct(which(bl$sex==1)), "(",round(n_distinct(which(bl$sex==1)) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(bl$sex==2)), "(",round(n_distinct(which(bl$sex==2)) / nrow(bl) * 100, 2),"%)", sep=""), "",
+        
+        paste(n_distinct(which(bl$gender==2)), "(",round(n_distinct(which(bl$gender==2)) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(bl$gender==1)), "(",round(n_distinct(which(bl$gender==1)) / nrow(bl) * 100, 2),"%)", sep=""),
+        "",
+        
+        paste(n_distinct(which(grepl(2, bl$race_eth))), "(",round(n_distinct(which(grepl(2, bl$race_eth))) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(grepl(3, bl$race_eth))), "(",round(n_distinct(which(grepl(3, bl$race_eth))) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(grepl(4, bl$race_eth))), "(",round(n_distinct(which(grepl(4, bl$race_eth))) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(grepl(6, bl$race_eth))), "(",round(n_distinct(which(grepl(6, bl$race_eth))) / nrow(bl) * 100, 2),"%)", sep=""),
+         paste(n_distinct(which(grepl(7, bl$race_eth))), "(",round(n_distinct(which(grepl(7, bl$race_eth))) / nrow(bl) * 100, 2),"%)", sep=""),
+       paste(n_distinct(which(grepl(8, bl$race_eth))), "(",round(n_distinct(which(grepl(8, bl$race_eth))) / nrow(bl) * 100, 2),"%)", sep=""), "",
+      
+       paste(n_distinct(which(grepl(1, bl$religion))), "(",round(n_distinct(which(grepl(1, bl$religion))) / nrow(bl) * 100, 2),"%)", sep=""),                       
+        paste(n_distinct(which(grepl(2, bl$religion))), "(",round(n_distinct(which(grepl(2, bl$religion))) / nrow(bl) * 100, 2),"%)", sep=""),       
+        paste(n_distinct(which(grepl(6, bl$religion))), "(",round(n_distinct(which(grepl(6, bl$religion))) / nrow(bl) * 100, 2),"%)", sep=""),       
+        paste(n_distinct(which(grepl(7, bl$religion))), "(",round(n_distinct(which(grepl(7, bl$religion))) / nrow(bl) * 100, 2),"%)", sep=""),                          
+          paste(n_distinct(which(grepl(8, bl$religion))), "(",round(n_distinct(which(grepl(8, bl$religion))) / nrow(bl) * 100, 2),"%)", sep=""),     
+       paste(n_distinct(which(grepl(9, bl$religion))), "(",round(n_distinct(which(grepl(9, bl$religion))) / nrow(bl) * 100, 2),"%)", sep=""), "",         
+       
+        paste(n_distinct(which(bl$sex_orient==1)), "(",round(n_distinct(which(bl$sex_orient==1)) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(bl$sex_orient==2)), "(",round(n_distinct(which(bl$sex_orient==2)) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(bl$sex_orient==3)), "(",round(n_distinct(which(bl$sex_orient==3)) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(bl$sex_orient==7)), "(",round(n_distinct(which(bl$sex_orient==7)) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(bl$sex_orient==9)), "(",round(n_distinct(which(bl$sex_orient==9)) / nrow(bl) * 100, 2),"%)", sep=""), "", 
+
+        paste(n_distinct(which(bl$class_year==3)), "(",round(n_distinct(which(bl$class_year==3)) / nrow(bl) * 100, 2),"%)", sep=""),
+        paste(n_distinct(which(bl$class_year==4)), "(",round(n_distinct(which(bl$class_year==4)) / nrow(bl) * 100, 2),"%)", sep="")
+
+       
+                               
+        )
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+)
+
+
+
+colnames(demog) <- c(" ", "N (%)")
+
+
+
+```
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+
+flextable(demog)
+
+
+```
