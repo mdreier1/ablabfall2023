@@ -104,7 +104,7 @@ end$PANAS_Neg_post <- rowSums(end[, c(36, 38, 40:42, 45, 47, 49, 52, 54)], na.rm
 
 ########## MERGE #######################
 
-data <- merge(bl, end, by = "ID")
+data <- left_join(bl, end, by = "ID")
 
 
 ```
@@ -121,12 +121,14 @@ mean(data$PSWQ_Total_pre) # Mean pre
 sd(data$PSWQ_Total_pre) # SD pre
 
 
-mean(data$PSWQ_Total_post) # Mean pre
-sd(data$PSWQ_Total_post) #SD pre
+mean(data$PSWQ_Total_post) # Mean post
+sd(data$PSWQ_Total_post) #SD post
 
 
 ```
-## Test of Differences in Anxiety (PSWQ)
+
+
+## Test of Differences in Anxiety (GAD-7)
 
 ```{r, include=TRUE, message=F, warning = F}
 
@@ -161,7 +163,7 @@ sd(data$Flourishing_Total_post) # SD post
 
 ```
 
-## Test of Differences in Positive Emotions
+## Test of Differences in Positive Emotions (PANAS)
 
 ```{r, include=TRUE, message=F, warning = F}
 
@@ -178,7 +180,7 @@ sd(data$PANAS_Pos_post) # SD post
 
 ```
 
-## Test of Differences in Negative Emotions
+## Test of Differences in Negative Emotions (PANAS)
 
 ```{r, include=TRUE, message=F, warning = F}
 
